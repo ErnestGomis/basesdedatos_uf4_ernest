@@ -1,0 +1,23 @@
+{
+  "name": "basesdedatos_uf4",
+  "version": "0.9.9",
+  "description": "Chat de ENTI con MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaenti/basesdedatos_uf4.git"
+  },
+  "author": "Rafa",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/rafaenti/basesdedatos_uf4/issues"
+  },
+  "homepage": "https://github.com/rafaenti/basesdedatos_uf4#readme",
+  "dependencies": {
+    "mongodb": "^3.6.6",
+    "node-static": "^0.7.11"
+  }
+}

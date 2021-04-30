@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Super ENTI Chat v0.9999</title>
+</head>
+<body>
+<form id="chat-form">
+<p><input type="text" name="user" id="user" placeholder="Nombre de usuario"/>
+<input type="text" name="msg" id="msg" placeholder="Mensaje" /><button>Enviar</button></p>
+</form>
+<div id="chat">
+</div>
+
+<script>
+const refresh_time = 500;
+
+document.getElementById("chat-form").addEventListener('submit', e => {
+	e.preventDefault();
+
+	let user = document.getElementById("user").value;
+	let msg = document.getElementById("msg").value;
+
+	fetch("/submit", {
+		method: "POST",
+		headers: {
+			'Content-Type': 'text/json'
+		},
+		body: JSON.stringify({
+			chat_user: user,
+			chat_msg: msg
+		})
+	});
+
+});
+
+setInterval(() => {
+	fetch("/chat")
+			.then( response => response.json() )
+			.then( data => {
+				let lista = '';
+				for (let i = 0; i < data.length; i++){
+
+					lista += "<li>"+data[i].user+": "+data[i].msg+"</li>";
+
+				}
+
+				document.getElementById("chat").innerHTML = "<ul>"+lista+"</ul>";
+
+
+			});
+
+}, refresh_time);
+</script>
+</body>
+</html>
