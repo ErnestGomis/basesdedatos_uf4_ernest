@@ -27,14 +27,12 @@ console.log("Inicializando servidor chat");
 
 let public_files = new node_static.Server("pub");
 
+//if del chat
 http.createServer( (request, response) => {
 	if (request.url == "/chat"){
-//		console.log("Entrando en el chat");
 		let cursor = chat_db.collection("chat").find({});
 
 		cursor.toArray().then( (data) => {
-			//console.log(data);
-
 			response.writeHead(200, {'Content-Type': 'text/plain'});
 
 			response.write( JSON.stringify(data) );
@@ -44,7 +42,34 @@ http.createServer( (request, response) => {
 
 		return;
 	}
+//if del recent
+	if (request.url == "/recent"){
+		const estimated_count = chat_db.collection("chat").estimatedDocumentCount();
 
+			estimated_count.then( (count) => {
+				console.log(count);
+
+			const MAX = 5;
+
+			let cursor = chat_db.collection("chat").find({}, {
+				skip: NUM - MAX,
+				limit:5,
+				sort: { $natural:1 }
+			});
+
+			cursor.toArray().then( (data) => {
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+
+				response.write( JSON.stringify(data) );
+
+				response.end();
+			});
+		});
+
+		return;
+	}
+
+//if del submit
 	if (request.url == "/submit"){
 		console.log("Envío de datos");
 
@@ -71,7 +96,12 @@ http.createServer( (request, response) => {
 		response.end();
 
 		return;
+	
 	}
+
+
+
+
 
 	public_files.serve(request, response);
 
